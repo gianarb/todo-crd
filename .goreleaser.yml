@@ -1,0 +1,19 @@
+builds:
+- env:
+    - CGO_ENABLED=0
+    - GO111MODULE=on
+  goos:
+    - linux
+  id: todo-crd
+  main: ./cmd/main.go
+dockers:
+  -
+    goos: linux
+    goarch: amd64
+    binaries:
+    - todo-crd
+    image_templates:
+    - "gianarb/todo-crd:latest"
+    - "gianarb/todo-crd:{{ .Tag }}"
+    skip_push: false
+    dockerfile: Dockerfile
