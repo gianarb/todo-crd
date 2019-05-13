@@ -5,6 +5,17 @@ I have used [code-generator](https://github.com/kubernetes/code-generator) to
 generate types, clients and informers for this CRD. The `cmd/main.go` starts a
 shared informer to extend capabilities with your business code.
 
+## Run on kubernetes
+
+1. Start minikube
+2. Deploy CRD, apps
+```
+kubectl apply -f artifacts/crd.yaml
+kubectl apply -f artifacts/app.yaml
+```
+3. Tail the logs from the pod to see what the application does
+4. Create your first item: `kubectl apply -f artifacts/todo.yaml`
+
 ## Dependency Management
 The project uses `go mod` but it is requited by `code-generator` for the project
 to be in the `GOPATH`. You should export `GO111MODULE=on` to be sure that the
@@ -21,7 +32,7 @@ Checkout the project in your GOPATH because `code-generator` still uses
     github.com/gianarb/todo-crd/pkg/apis todoexample:v1
 ```
 
-## Run the code
+## Run locally 
 You can start minkube, register the crd with `kubectl apply -f
 artifacts/crd.yaml` and run `go run ./cmd/main.go` to start the shared informer
 app:

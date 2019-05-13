@@ -14,6 +14,38 @@ spec:
       labels:
         app: todo
     spec:
+      serviceAccountName: todo-crd
       containers:
       - name: todo
         image: gianarb/todo-crd
+        env:
+          - name: USER
+            value: /root
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: todo-crd
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: todo-crd
+subjects:
+- kind: ServiceAccount
+  name: todo-crd
+  namespace: default
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: todo-crd
+  namespace: default
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: todo-crd
+rules:
+  - apiGroups: ['todoexample.com']
+    resources: ["todo", "todos"]
+    verbs: ["get", "list", "delete", "watch", "update"]
